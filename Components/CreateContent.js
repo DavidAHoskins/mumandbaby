@@ -6,11 +6,7 @@ import { WebView } from 'react-native';
 import {createStackNavigator,withNavigation, DrawerActions} from 'react-navigation';
 import User from "../Data/User";
 //const util = require('util');
-
-export default class CreateContent extends React.Component {
-	static navigationOptions = {
-        title: 'My Hospital screen'
-    };
+class CreateContent extends React.Component {
     getNewIndex(){
    	 	this.newIndex++;
    	 	//console.log("new index:", this.newIndex);
@@ -22,10 +18,11 @@ export default class CreateContent extends React.Component {
         super(props);
         this.state ={ isLoading: true, txt: null, tableHead: ['Head', 'Head2'],
             tableData: []
-            }
+						}
+						
 
 
-    }
+		}
     componentDidMount(){
         //this.navigationOptions.title = "test";
         this.newIndex = 0;
@@ -33,63 +30,51 @@ export default class CreateContent extends React.Component {
         this.chooseScreen = this.chooseScreen.bind(this);
         this.renderNode = this.renderNode.bind(this);
         var user:User = require('../Data/User').default;
-        this.getKey(user.getCurrentUser());
-		
+        this.getKey(user.getCurrentPage());
+				
         return
             this.render();
     }
-    async getKey(hosp:String) {
+    async getKey(currentPage:String) {
         try {
         	console.log("try get key");
-            const value = await AsyncStorage.getItem('@'+hosp+':key');
-            this.setState({txt: value, dataSource: JSON.parse(value), isLoading:false});
+						const value = await AsyncStorage.getItem('@'+currentPage+':key');
+						this.setState({txt: value, dataSource: JSON.parse(value), isLoading:false});
+						
              const {setParams} = this.props.navigation;
     		setParams({ title: 'titleText' })
              //this.props.navigation.navigate('ScreenRegister', {title: 'WHATEVER'})
         } catch (error) {
             console.log("Error retrieving data" + error);
-        }
+				}
+				
     }
     render() {
-    //this.processHTML(item.post_content)
-                /*<FlatList
-                    data={this.state.dataSource}
-                    renderItem={({item}) => this.processHTML(item.post_content)
-                    }
-                    keyExtractor={(item, index) => String(index)}
-                />*/
-        const state = this.state;
+				const state = this.state;
+				
         return (
             <View>
-
-
-            <ScrollView>
-				<FlatList
-                    data={this.state.dataSource}
-                    renderItem={({item}) => this.processHTML(item.post_content)
-                    }
-                    keyExtractor={(item, index) => String(index)}
-                />
-            </ScrollView>
+							<ScrollView>
+									<FlatList
+											data={this.state.dataSource}
+											renderItem={({item}) => this.processHTML(item.content.rendered)
+											}
+											keyExtractor={(item, index) => String(index)}
+									/>
+							</ScrollView>
             </View>
         );
     }
     processHTML(postContent:String){
-      
-		/*<HTMLView  	addLineBreaks={false} 
-           				value={'<p>'+postContent.replace(/(\r\n|\n|\r)/m, "")+'</p>'}
-    					renderNode={this.renderNode}
-                        stylesheet={styles2}
-                        />*/
+			
         return (
          <View style={{backgroundColor: '#FFFFFF', padding: 15}}>
            <HTMLView  	addLineBreaks={false} 
            				value={'<p>'+postContent.replace(/(\r\n|\n|\r)/m, "")+'</p>'}
            				renderNode={this.renderNode}
-    					stylesheet={styles2}
-                        />
-           
-		</View>
+    							stylesheet={styles2}
+                  />
+   				</View>
         );
     }
     
@@ -97,28 +82,26 @@ export default class CreateContent extends React.Component {
     var tempIndex:int = this.getNewIndex();
     //console.log("what is the index:", index);
     //console.log("what is the tempindex:", this.newIndex);
-  		if (node.name == 'iframe') {
+  	if (node.name == 'iframe') {
 			const a = node.attribs;
 			const dimensions = Dimensions.get('window');
 			var videoHeight = Math.round((dimensions.width-30) * (9 / 16));
 			var videoWidth = dimensions.width-30;
 			const iframeHtml = `<iframe src="${a.src}" scrolling="no" style="width:100%;height:100%;"></iframe>`;
 			return (
-			<View key={tempIndex}>
-			<Text>Video</Text>
-			
-			  <View style={{flex:1, width: Number(videoWidth), height: Number(videoHeight)}}>
-	  
-				<WebView
-					style={{flex:1}}
-					javaScriptEnabled={true}
-					source={{uri: a.src}}
-					/>
-			  </View>
-			   </View>
+				<View key={tempIndex}>
+					<Text>Video</Text>
+					<View style={{flex:1, width: Number(videoWidth), height: Number(videoHeight)}}>
+						<WebView
+							style={{flex:1}}
+							javaScriptEnabled={true}
+							source={{uri: a.src}}
+							/>
+					</View>
+				</View>
 			);
-  		}
-  		if (node.name == 'img') {
+			}
+  	/*	if (node.name == 'img') {
 			const a = node.attribs;
 			const dimensions = Dimensions.get('window');
 			var rawImageWidth = a.width;
@@ -133,7 +116,7 @@ export default class CreateContent extends React.Component {
 					/>	
 			   </View>
 			);
-  		}
+			}*/
   		
 		if(node.name == 'div'){
 			const a = node.attribs;
@@ -232,15 +215,15 @@ export default class CreateContent extends React.Component {
 	}
     
     chooseScreen (str){
-    	console.log("choose screen triggered");
+    		console.log("choose screen triggered");
         var user:User = require('../Data/User').default;
         console.log("Screen to:" + str);
-		var splitArray = str.split("/")
-		var pageName:String = splitArray[splitArray.length-2];
-		console.log("Screen to 2:" + pageName);
-        user.setCurrentUser(pageName);
+				var splitArray = str.split("/")
+				var pageName:String = splitArray[splitArray.length-2];
+				console.log("Screen to 2:" + pageName);
+        user.setCurrentPage(pageName);
         var {push} =  this.props.navigation;
-        push("Content", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
+        push("DefaultContent", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
 
 
     }
@@ -347,3 +330,5 @@ const styles2 = StyleSheet.create({
         fontFamily: 'Lato-Light',
     },
 })
+
+export default withNavigation(CreateContent);

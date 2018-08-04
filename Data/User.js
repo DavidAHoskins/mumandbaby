@@ -1,13 +1,13 @@
 class User {
     static currentUser = "defaultUser";
-    static currentPage = "defaultUser";
+    static currentPage = "defaultPage";
     static lastLoadDate = null;
 
     //other relevant code here
 	static getCurrentPage() {
         return this.currentPage;
     }
-    static setCurrentPager(str:String) {
+    static setCurrentPage(str:String) {
         this.currentPage = str;
     }
     static getCurrentUser() {

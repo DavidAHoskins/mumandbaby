@@ -13,7 +13,7 @@ export default class HomeScreen extends React.Component {
     	title: 'Home',
         headerLeft: (
             <Button
-                onPress={() => alert(navigation.state.routeName)}
+                onPress={() => this.changeDrawer()}
                 title="Menu"
                 
             />
@@ -26,8 +26,12 @@ export default class HomeScreen extends React.Component {
             />
         ),
     });
+    changeDrawer(){
+        var {navigate} =  this.props.navigation;
+        navigate.toggleDrawer();
+    }
     componentDidMount(){
-    	//this.toggleDrawer = this.toggleDrawer.bind(this);
+    	this.changeDrawer = this.changeDrawer.bind(this);
 		/*_retrieveData = async () => {
 		  try {
 			const value = await AsyncStorage.getItem('@lastLoadDate:key');
@@ -121,25 +125,33 @@ export default class HomeScreen extends React.Component {
                 <Text> This is screen 1</Text>
                     <Button
                         onPress = {
-                            () => this.chooseScreen(2)
+                            () => this.chooseScreen("maternityunits")
 
                         }
-                        title = "Choose Hospital"
+                        title = "Maternity unity"
                     />
                 <Button
                     onPress = {
-                        () => this.chooseScreen(4)
+                        () => this.chooseScreen("your-pregnancy")
 
                     }
-                    title = "My Hospital"
+                    title = "Before birth"
                 />
                 <Button
                     onPress = {
-                        () => this.chooseScreen("MaternityUnits")
+                        () => this.chooseScreen("labour-and-birth")
 
                     }
-                    title = "Maternity units"
+                    title = "Birth"
                 />
+                <Button
+                    onPress = {
+                        () => this.chooseScreen("after-your-babys-birth")
+
+                    }
+                    title = "After Birth"
+                />
+                
             </View>
         );
 
@@ -147,17 +159,25 @@ export default class HomeScreen extends React.Component {
     chooseScreen (str){
     	var user:User = require('../Data/User').default;
         var {navigate} =  this.props.navigation;
-
-        if(str==4){
-            navigate("Content", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
+        user.setCurrentPage(str);
+        if(str == "maternityunits"){
+            navigate("MaternityUnits", {})
+            //navigate("DefaultContent", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
+       
+        }
+        else{
+            navigate("DefaultContent", {})
+        }
+        /*if(str==""){
+            user.setCurrentPage(str);
+            navigate("DefaultContent", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
         }
         else if(str==2){
             navigate("Third", {})
         }
         else if("MaternityUnits"){
-        	user.setCurrentUser("maternityunits");
-        	navigate("MaternityUnits", {})
-    	}
+        	
+    	}*/
 	}
 }
 

@@ -8,38 +8,41 @@ import User from "../Data/User";
 export default class SplashScreen extends React.Component {
 	
     static navigationOptions =({navigation, screenProps }) => ( {
-    	title: 'Splash',
+        title: 'Splash',
         header: null,
     });
     componentDidMount(){
+        console.log("componentDidMount function");
+        
     	this.loadWelcomeScreen = this.loadWelcomeScreen.bind(this);
     	var user:User = require('../Data/User').default;
-    	return fetch('http://www.davidhoskins.co.uk/appdata/wp-json/mylistingplugin/v1/title/'+'Hospital3')
+    	return fetch('http://www.davidhoskins.co.uk/appdata/wp-json/wp/v2/posts?per_page=100')
             .then((response) => response.json())
             .then((responseJson) => {
 
                 try {
                     var data = responseJson;
-                    console.log("Hello" + data.length);
                     
-					
                     for(var i in data)
                     {
-                        var post = data[i];
+                       /* var post = data[i];
                         for(var k in post)
-                        {
-                            console.log("add post" + post[k].post_name);
+                        {*/
+                            console.log("add post" + data[i].slug);
+                            
                             // var id = data[i].id;
                             //var name = data[i].name;
-                            AsyncStorage.setItem('@'+post[k].post_name+':key', "["+JSON.stringify(post[k])+"]");
-                        }
+                            AsyncStorage.setItem('@'+data[i].slug+':key', "["+JSON.stringify(data[i])+"]");
+                        //}
 
                     }
+                    
                     this.loadWelcomeScreen();
     				console.log("load home screen");
                     
 
                 } catch (error) {
+                    console.log("error loading data")
                     // Error saving data
                 }
 
@@ -48,9 +51,6 @@ export default class SplashScreen extends React.Component {
                 console.error(error);
             });
 			
-        
-        //this.loadData();
-		
     }
     async loadWelcomeScreen(){
 		try {
@@ -61,7 +61,7 @@ export default class SplashScreen extends React.Component {
 				if (value !== null) {
 				  // We have data!!
 				  console.log(value);
-				  
+				  console.log("Goto home screen")  
 				  navigate("Home", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
 				}
 				else{
@@ -70,7 +70,8 @@ export default class SplashScreen extends React.Component {
 				  } catch (error) {
 					// Error saving data
 				  }
-					navigate("Welcome", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
+                  console.log("Goto welcome screen")  
+                  navigate("Welcome", {title:"temp title", desc: "description text to show what could be shown", image:"test"})
 				}
 				 //this.props.navigation.navigate('ScreenRegister', {title: 'WHATEVER'})
 			} catch (error) {
@@ -114,7 +115,7 @@ export default class SplashScreen extends React.Component {
             
     }
     render(){
-        var {navigate} =  this.props.navigation;
+        console.log("render function");
         return(
             <View style={{
 				flex: 1,
@@ -123,7 +124,7 @@ export default class SplashScreen extends React.Component {
 				alignItems: 'center',
 				backgroundColor: 'white'
 			  }}>
-                <Text>Loading screen</Text>
+                <Text>Temp Loading screen</Text>
             </View>
         );
 

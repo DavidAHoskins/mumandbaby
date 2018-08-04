@@ -18,43 +18,21 @@ import MaternityUnitsScreen from './screens/MaternityUnitsScreen';
 import SecondScreen from './screens/SecondScreen';
 import ThirdScreen from "./screens/ThirdScreen";
 import DefaultContentScreen from "./screens/DefaultContentScreen";
+import AppointmentsScreen from './screens/AppointmentsScreen';
+import BackupScreen from './screens/BackupScreen';
+import PersonalCarePlanScreen from './screens/PersonalCarePlanScreen';
 
 
-/*const DrawerNavigation = createDrawerNavigator({
-	 Home: {
-	   screen: FirstScreen,
-	   navigationOptions: {
-		 title: "RN WC Store"
-	   }
-	 },
-	 Products: {
-	   screen: SecondScreen,
-	   navigationOptions: {
-		 title: "Shop"
-	   }
-	 },
-	 Product: {
-	   screen: ThirdScreen,
-	   navigationOptions: ({ navigation }) => ({
-		 title: navigation.state.params.product.name
-	   }),
-	 },
-	 CartPage: {
-	   screen: ContentScreen,
-	   navigationOptions: {
-		 title: "Cart"
-	   }
-	 }
-	});
-//DrawerNavigation: {screen:DrawerNavigation },*/
 const Navigation = createStackNavigator({
-	Splash:{screen:SplashScreen},
-	Welcome:{screen:WelcomeScreen},
+	  Splash:{screen:SplashScreen},
+	  Welcome:{screen:WelcomeScreen},
     Home:{screen:HomeScreen},
     MaternityUnits:{screen:MaternityUnitsScreen},
-    Second:{screen:SecondScreen},
-    Third:{screen:ThirdScreen},
+    Appointments:{screen:AppointmentsScreen},
+    Backup:{screen:BackupScreen},
+    PersonalCarePlan:{screen:PersonalCarePlanScreen},
     DefaultContent:{screen:DefaultContentScreen}
+  
 },
   {
   	headerMode: 'float',
@@ -72,5 +50,16 @@ const Navigation = createStackNavigator({
     })
   });
 
+  export default Navigation;
 
-export default Navigation;
+const DrawerNavigation = createDrawerNavigator({
+	 Home: {
+	   screen: SplashScreen,
+	   navigationOptions: {
+		 title: "RN WC Store"
+	   }
+	 }
+	});
+
+
+//export default DrawerNavigation;

@@ -40,8 +40,9 @@ export default class WelcomeScreen extends React.Component {
 
     }
     loadHomeScreen (){
+
         var {navigate} =  this.props.navigation;
-		navigate("Third", {})
+		navigate("Home", {})
         
     }
     
